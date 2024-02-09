@@ -1,0 +1,156 @@
+<?php
+
+namespace App\Http\Controllers\Category;
+
+use App\Models\Category;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
+
+class CategoryController extends Controller
+{
+    function __construct() {
+        $this->category = new Category();
+    }
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        try {
+            $data = $this->category->allCategory();
+            return response()->json([
+                'category' => $data,
+                'status' => 200,
+                'message' => 'Success fetching the data.'
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Error fetching the data!'
+            ], 500);
+        }
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'error' => $validator->errors(),
+                'status' => 422,
+            ], 422);
+        }
+        $data = [
+            'name' => $request->input('name'),
+        ];
+        try {
+            $add = $this->category->addCategory($data);
+            return response()->json([
+                'data' => $add,
+                'status' => 200,
+                'message' => 'Category added successfully.'
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Error adding this category!'
+            ], 500);
+        }
+
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        try {
+            $data = $this->category->editCategory($id);
+            return response()->json([
+                'data' => $data,
+                'status' => 200,
+                'message' => 'Category found.'
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Category not found!'
+            ], 404);
+        }
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+{
+    $validator = Validator::make($request->all(), [
+        'name' => 'required|string',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json([
+            'error' => $validator->errors(),
+            'status' => 422,
+        ], 422);
+    }
+
+    try {
+        $data = ['name' => $request->input('name')];
+        $update = $this->category->updateCategory($id, $data);
+
+        return response()->json([
+            'data' => $update,
+            'status' => 200,
+            'message' => 'Category updated successfully.',
+        ], 200);
+    } catch (\Throwable $th) {
+        return response()->json([
+            'status' => 500,
+            'message' => 'Error updating the category: ' . $th->getMessage(),
+        ], 500);
+    }
+}
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        try {
+            $this->category->deleteCategory($id);
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Category successfully deleted.',
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Error deleting category: ' . $th->getMessage(),
+            ], 500);
+        }
+    }
+}
