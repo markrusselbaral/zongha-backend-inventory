@@ -36,8 +36,12 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        $user = $this->user->editUser($id);
-        return response()->json(['data' => $user]);
+        try {
+            $user = $this->user->editUser($id);
+            return response()->json(['data' => $user]);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to fetch user: ' . $e->getMessage()], 500);
+        }
     }
 
     public function update(UserUpdateRequest $request, $id)
