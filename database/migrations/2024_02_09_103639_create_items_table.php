@@ -16,9 +16,10 @@ return new class extends Migration
             $table->string('product_code');
             $table->string('name');
             $table->unsignedBigInteger('category_id')->nullable();
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('category_id')->references('id')->on('categories');
             $table->string('image');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
