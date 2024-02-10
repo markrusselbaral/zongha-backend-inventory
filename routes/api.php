@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Category\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,3 +28,21 @@ Route::prefix('user')->group(function () {
     Route::put('/{id}', [UserController::class, 'update']);
     Route::delete('/{id}', [UserController::class, 'delete']);
 });
+
+Route::prefix('category')->group(function() {
+    Route::get('/', [CategoryController::class, 'index']);
+    Route::post('/store', [CategoryController::class, 'store']);
+    Route::get('/{id}', [CategoryController::class, 'show']);
+    Route::post('/{id}/update', [CategoryController::class, 'update']);
+    Route::delete('/{id}/delete', [CategoryController::class, 'destroy']);
+});
+
+// Route::middleware(['auth', 'role:Admin'])->group(function () {
+    
+// });
+
+// Route::middleware(['auth', 'role:User'])->group(function () {
+    
+// });
+
+
