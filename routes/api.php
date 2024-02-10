@@ -2,10 +2,11 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Item\ItemController;
-use App\Http\Controllers\ClientController;
+use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\Category\CategoryController;
+use App\Http\Controllers\Pricing\PricingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +38,14 @@ Route::prefix('client')->group(function() {
     Route::get('/{id}', [ClientController::class, 'edit']);
     Route::put('/{id}', [ClientController::class, 'update']);
     Route::delete('/{id}', [ClientController::class, 'delete']);
+});
+
+Route::prefix('pricing')->group(function() {
+    Route::get('/', [PricingController::class, 'index']);
+    Route::post('/', [PricingController::class, 'save']);
+    Route::get('/{id}', [PricingController::class, 'edit']);
+    Route::put('/{id}', [PricingController::class, 'update']);
+    Route::delete('/{id}', [PricingController::class, 'delete']);
 });
 
 Route::prefix('category')->group(function() {
