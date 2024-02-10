@@ -10,6 +10,10 @@ class Client extends Model
     use HasFactory;
     protected $guarded = [];
 
+    public function pricing()
+    {
+        return $this->hasMany(Pricing::class);
+    }
 
     public function displayClients()
     {

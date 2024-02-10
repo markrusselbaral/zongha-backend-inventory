@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
+
+    protected $guarded = [];
+
+    public function pricing()
+    {
+        return $this->hasMany(Pricing::class);
+    }
 }
