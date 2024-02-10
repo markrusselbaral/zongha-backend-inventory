@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Item\ItemController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\Category\CategoryController;
 
@@ -40,18 +41,32 @@ Route::prefix('client')->group(function() {
 
 Route::prefix('category')->group(function() {
     Route::get('/', [CategoryController::class, 'index']);
-    Route::post('/store', [CategoryController::class, 'store']);
+    Route::post('/', [CategoryController::class, 'store']);
     Route::get('/{id}', [CategoryController::class, 'show']);
-    Route::post('/{id}/update', [CategoryController::class, 'update']);
-    Route::delete('/{id}/delete', [CategoryController::class, 'destroy']);
+    Route::put('/{id}', [CategoryController::class, 'update']);
+    Route::delete('/{id}', [CategoryController::class, 'destroy']);
+});
+
+Route::prefix('items')->group(function() {
+    Route::get('/', [ItemController::class, 'index']);
+    Route::post('/', [ItemController::class, 'store']);
+    Route::get('/{id}', [ItemController::class, 'show']);
+    Route::put('/{id}', [ItemController::class, 'update']);
+    Route::delete('/{id}', [ItemController::class, 'destroy']);
+
+});
+
+Route::prefix('retrieve')->group( function() {
+    Route::get('/', [ItemController::class, 'showRetrieve']);
+    Route::get('/{id}', [ItemController::class, 'restore']);
 });
 
 // Route::middleware(['auth', 'role:Admin'])->group(function () {
-    
+
 // });
 
 // Route::middleware(['auth', 'role:User'])->group(function () {
-    
+
 // });
 
 
