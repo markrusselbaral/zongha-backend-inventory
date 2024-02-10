@@ -27,8 +27,7 @@ class UserController extends Controller
     public function save(UserSaveRequest $request)
     {
         try {
-            $user = $this->user->addUser($request->validated(), $request->role);
-            
+            $this->user->addUser($request->validated(), $request->role);
             return response()->json(['message' => 'Successfully Added a User', 'status' => true]);
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to add a user: ' . $e->getMessage()], 500);
@@ -44,7 +43,7 @@ class UserController extends Controller
     public function update(UserUpdateRequest $request, $id)
     {
         try {
-            $user = $this->user->updateUser($request->validated(), $id, $request->role);
+            $this->user->updateUser($request->validated(), $id, $request->role);
             return response()->json(['message' => 'Successfully Updated a User', 'status' => true]);
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to update a user: ' . $e->getMessage()], 500);
