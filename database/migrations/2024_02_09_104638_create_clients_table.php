@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('tin_name');
             $table->string('tin_number');
             $table->string('type');
-            $table->float('price');
             $table->timestamps();
         });
     }

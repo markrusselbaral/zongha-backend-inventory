@@ -26,7 +26,6 @@ class ClientRequest extends FormRequest
             'tin_name' => '',
             'tin_number' => '',
             'type' => 'required',
-            'price' => 'required'
         ];
     }
 }
