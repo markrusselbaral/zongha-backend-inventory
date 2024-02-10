@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('tin_name');
+            $table->string('tin_number');
             $table->string('type');
-            $table->float('price');
             $table->timestamps();
         });
     }

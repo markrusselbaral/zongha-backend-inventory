@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Item\ItemController;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\Category\CategoryController;
 
 /*
@@ -28,6 +29,14 @@ Route::prefix('user')->group(function () {
     Route::get('/{id}', [UserController::class, 'edit']);
     Route::put('/{id}', [UserController::class, 'update']);
     Route::delete('/{id}', [UserController::class, 'delete']);
+});
+
+Route::prefix('client')->group(function() {
+    Route::get('/', [ClientController::class, 'index']);
+    Route::post('/', [ClientController::class, 'save']);
+    Route::get('/{id}', [ClientController::class, 'edit']);
+    Route::put('/{id}', [ClientController::class, 'update']);
+    Route::delete('/{id}', [ClientController::class, 'delete']);
 });
 
 Route::prefix('category')->group(function() {
