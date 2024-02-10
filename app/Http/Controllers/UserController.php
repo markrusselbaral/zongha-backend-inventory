@@ -4,15 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Http\Requests\UserRequest;
-use App\Helper\ArrayHelper;
+use App\Http\Requests\User\UserSaveRequest;
+use App\Http\Requests\User\UserUpdateRequest;
 
 class UserController extends Controller
 {
     function __construct()
     {
         $this->user = new User;
-        $this->arrayHelper = new ArrayHelper;
     }
 
     public function index()
@@ -25,10 +24,11 @@ class UserController extends Controller
         }
     }
 
-    public function save(UserRequest $request)
+    public function save(UserSaveRequest $request)
     {
         try {
-            $this->user->addUser($request->validated());
+            $user = $this->user->addUser($request->validated(), $request->role);
+            
             return response()->json(['message' => 'Successfully Added a User', 'status' => true]);
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to add a user: ' . $e->getMessage()], 500);
@@ -41,10 +41,10 @@ class UserController extends Controller
         return response()->json(['data' => $user]);
     }
 
-    public function update(UserRequest $request, $id)
+    public function update(UserUpdateRequest $request, $id)
     {
         try {
-            $this->user->updateUser($this->arrayHelper->user($request), $id);
+            $user = $this->user->updateUser($request->validated(), $id, $request->role);
             return response()->json(['message' => 'Successfully Updated a User', 'status' => true]);
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to update a user: ' . $e->getMessage()], 500);

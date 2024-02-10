@@ -45,9 +45,9 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function addUser($data)
+    public function addUser($data, $role)
     {
-        return $this->create($data);
+        return $this->create($data)->assignRole($role);
     }
 
     public function displayUser()
@@ -60,10 +60,11 @@ class User extends Authenticatable
         return $this->with('roles')->find($id);
     }
 
-    public function updateUser($data, $id)
+    public function updateUser($data, $id, $role)
     {
         $user = $this->find($id);
         $user->update($data);
+        $user->syncRoles($role);
     }
 
     public function deleteUser($id)
