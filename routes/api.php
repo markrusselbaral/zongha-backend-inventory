@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Item\ItemController;
 use App\Http\Controllers\Category\CategoryController;
 
 /*
@@ -37,12 +38,17 @@ Route::prefix('category')->group(function() {
     Route::delete('/{id}/delete', [CategoryController::class, 'destroy']);
 });
 
+Route::prefix('items')->group(function() {
+    Route::get('/', [ItemController::class, 'index']);
+    Route::post('/store', [ItemController::class, 'store']);
+});
+
 // Route::middleware(['auth', 'role:Admin'])->group(function () {
-    
+
 // });
 
 // Route::middleware(['auth', 'role:User'])->group(function () {
-    
+
 // });
 
 
