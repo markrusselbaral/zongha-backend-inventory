@@ -22,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'image'
     ];
 
     /**
@@ -43,4 +44,32 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function addUser($data, $role)
+    {
+        return $this->create($data)->assignRole($role);
+    }
+
+    public function displayUser()
+    {
+        return $this->with('roles')->paginate(5);
+    }
+
+    public function editUser($id)
+    {
+        return $this->with('roles')->find($id);
+    }
+
+    public function updateUser($data, $id, $role)
+    {
+        $user = $this->find($id);
+        $user->update($data);
+        $user->syncRoles($role);
+    }
+
+    public function deleteUser($id)
+    {
+        $user = $this->find($id);
+        $user->delete();
+    }
 }

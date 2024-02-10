@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\Category\CategoryController;
 
 /*
@@ -20,6 +21,14 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 });
 
 
+Route::prefix('user')->group(function () {
+    Route::get('/', [UserController::class, 'index']);
+    Route::post('/', [UserController::class, 'save']);
+    Route::get('/{id}', [UserController::class, 'edit']);
+    Route::put('/{id}', [UserController::class, 'update']);
+    Route::delete('/{id}', [UserController::class, 'delete']);
+});
+
 Route::prefix('category')->group(function() {
     Route::get('/', [CategoryController::class, 'index']);
     Route::post('/store', [CategoryController::class, 'store']);
@@ -35,4 +44,5 @@ Route::prefix('category')->group(function() {
 // Route::middleware(['auth', 'role:User'])->group(function () {
     
 // });
+
 
