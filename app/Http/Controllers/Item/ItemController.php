@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers\Item;
 
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use App\Models\Item;
+use App\Models\Category;
+use Illuminate\Support\Str;
+use App\Traits\FileUploader;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Traits\FileUploader;
+use Illuminate\Support\Facades\Storage;
 
 class ItemController extends Controller
 {
     use FileUploader;
+
+    function __construct(){
+        $this->category = new Category();
+    }
     /**
      * Display a listing of the resource.
      */
@@ -39,7 +44,12 @@ class ItemController extends Controller
      */
     public function create()
     {
-        //
+        try {
+            $create = $this->category->allCategory();
+            return response()->json(['data' => $create, 'status' => true], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => 'Failed to fetch category: ' . $th->getMessage()], 500);
+        }
     }
 
     /**
