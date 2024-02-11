@@ -48,4 +48,10 @@ class Pricing extends Model
         $pricing->delete();
     }
 
+    public function multipleDeletePricing($data)
+    {
+        $pricing = $this->whereIn('id', $data);
+        $pricing->delete();
+    }
+
 }

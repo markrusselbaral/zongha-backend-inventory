@@ -32,6 +32,7 @@ Route::prefix('user')->group(function () {
     Route::get('/{id}', [UserController::class, 'edit']);
     Route::put('/{id}', [UserController::class, 'update']);
     Route::delete('/{id}', [UserController::class, 'delete']);
+    Route::delete('/', [UserController::class, 'multipleDelete']);
 });
 
 Route::prefix('client')->group(function() {
@@ -40,6 +41,7 @@ Route::prefix('client')->group(function() {
     Route::get('/{id}', [ClientController::class, 'edit']);
     Route::put('/{id}', [ClientController::class, 'update']);
     Route::delete('/{id}', [ClientController::class, 'delete']);
+    Route::delete('/', [ClientController::class, 'multipleDelete']);
 });
 
 Route::prefix('pricing')->group(function() {
@@ -49,6 +51,7 @@ Route::prefix('pricing')->group(function() {
     Route::get('/{id}', [PricingController::class, 'edit']);
     Route::put('/{id}', [PricingController::class, 'update']);
     Route::delete('/{id}', [PricingController::class, 'delete']);
+    Route::delete('/', [PricingController::class, 'multipleDelete']);
 });
 
 Route::prefix('category')->group(function() {

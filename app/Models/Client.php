@@ -46,4 +46,10 @@ class Client extends Model
         $client = $this->find($id);
         $client->delete();
     }
+
+    public function multipleDeleteClient($data)
+    {
+        $pricing = $this->whereIn('id', $data);
+        $pricing->delete();
+    }
 }

@@ -64,4 +64,14 @@ class ClientController extends Controller
             return response()->json(['error' => 'Failed to delete a client: ' . $e->getMessage()], 500);
         }
     }
+
+    public function multipleDelete(Request $request)
+    {
+        try {
+            $this->client->multipleDeleteClient($request->data);
+            return response()->json(['message' => 'Successfully Deleted a Client', 'status' => true]);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to delete a client: ' . $e->getMessage()], 500);
+        }
+    }
 }
