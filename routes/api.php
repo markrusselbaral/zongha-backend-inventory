@@ -42,6 +42,7 @@ Route::prefix('client')->group(function() {
 
 Route::prefix('pricing')->group(function() {
     Route::get('/', [PricingController::class, 'index']);
+    Route::get('/create', [PricingController::class, 'create']);
     Route::post('/', [PricingController::class, 'save']);
     Route::get('/{id}', [PricingController::class, 'edit']);
     Route::put('/{id}', [PricingController::class, 'update']);

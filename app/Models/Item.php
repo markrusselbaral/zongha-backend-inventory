@@ -20,4 +20,9 @@ class Item extends Model
     {
         return $this->belongsTo(Category::class, 'id');
     }
+
+    public function product()
+    {
+        return $this->hasMany(Product::class);
+    }
 }

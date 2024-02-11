@@ -25,6 +25,7 @@ class Pricing extends Model
         return $this->with(['client', 'product'])->paginate(5);
     }
 
+
     public function addPricing($data)
     {
         return $this->create($data);
