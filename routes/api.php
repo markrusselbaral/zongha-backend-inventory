@@ -2,11 +2,12 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Item\ItemController;
+use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Client\ClientController;
-use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Pricing\PricingController;
+use App\Http\Controllers\Category\CategoryController;
+use App\Http\Controllers\Warehouse\WarehouseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,6 +60,7 @@ Route::prefix('category')->group(function() {
 
 Route::prefix('items')->group(function() {
     Route::get('/', [ItemController::class, 'index']);
+    Route::get('/create', [ItemController::class, 'create']);
     Route::post('/', [ItemController::class, 'store']);
     Route::get('/{id}', [ItemController::class, 'show']);
     Route::put('/{id}', [ItemController::class, 'update']);
@@ -69,6 +71,14 @@ Route::prefix('items')->group(function() {
 Route::prefix('retrieve')->group( function() {
     Route::get('/', [ItemController::class, 'showRetrieve']);
     Route::get('/{id}', [ItemController::class, 'restore']);
+});
+
+Route::prefix('warehouse')->group(function() {
+    Route::get('/', [WarehouseController::class, 'index']);
+    Route::get('/{id}', [WarehouseController::class, 'edit']);
+    Route::post('/', [WarehouseController::class, 'store']);
+    Route::put('/{id}', [WarehouseController::class, 'update']);
+    Route::delete('/{id}', [WarehouseController::class, 'destroy']);
 });
 
 // Route::middleware(['auth', 'role:Admin'])->group(function () {
