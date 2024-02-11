@@ -72,4 +72,10 @@ class User extends Authenticatable
         $user = $this->find($id);
         $user->delete();
     }
+
+    public function multipleDeleteUser($data)
+    {
+        $pricing = $this->whereIn('id', $data);
+        $pricing->delete();
+    }
 }

@@ -79,4 +79,14 @@ class PricingController extends Controller
             return response()->json(['error' => 'Failed to delete a pricing: ' . $e->getMessage()], 500);
         }
     }
+
+    public function multipleDelete(Request $request)
+    {
+        try {
+            $this->pricing->multipleDeletePricing($request->data);
+            return response()->json(['message' => 'Successfully Deleted a Pricing', 'status' => true]);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to delete a pricing: ' . $e->getMessage()], 500);
+        }
+    }
 }

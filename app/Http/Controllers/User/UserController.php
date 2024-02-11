@@ -64,4 +64,16 @@ class UserController extends Controller
             return response()->json(['error' => 'Failed to delete a user: ' . $e->getMessage()], 500);
         }
     }
+
+
+    public function multipleDelete(Request $request)
+    {
+        try {
+            $this->user->multipleDeleteUser($request->data);
+            return response()->json(['message' => 'Successfully Deleted a User', 'status' => true]);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to delete a user: ' . $e->getMessage()], 500);
+        }
+    }
+    
 }
