@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Warehouse extends Model
 {
@@ -11,6 +12,10 @@ class Warehouse extends Model
 
     protected $table = 'warehouses';
     protected $guarded = [''];
+
+    public function product() {
+        return $this->hasMany(Product::class, 'warehouse_id');
+    }
 
     public function allWarehouse() {
         $warehouse = $this->all();

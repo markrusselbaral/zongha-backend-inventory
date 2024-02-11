@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -23,6 +24,6 @@ class Item extends Model
 
     public function product()
     {
-        return $this->hasMany(Product::class);
+        return $this->hasMany(Product::class, 'item_id');
     }
 }

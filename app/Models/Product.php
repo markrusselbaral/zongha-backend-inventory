@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Item;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
@@ -27,5 +28,44 @@ class Product extends Model
             $query->select('id','name');
         }])->select('item_id')->get();
         return $products;
+    }
+
+    public function warehouse(){
+        return $this->belongsTo(Warehouse::class);
+    }
+
+    public function allItems()
+    {
+        $data['warehouses'] = $this->with(['warehouse' => function ($query) {
+            $query->select('id', 'name');
+        }])->select('warehouse_id')->get();
+
+        $data['items'] = $this->with(['item' => function ($query) {
+            $query->select('id','name', 'product_code', 'image');
+        }])->select('item_id')->get();
+
+        return $data;
+    }
+
+    public function saveProduct($data)
+    {
+        $product = $this->with(['warehouse', 'item'])->create($data);
+
+        return $product;
+    }
+
+
+    public function editProduct($id)
+    {
+        $product = $this->with(['warehouse', 'item'])->find($id);
+
+        return $product;
+    }
+
+    public function updateProduct($id, $data)
+    {
+        $product = $this->find($id);
+        $product->update($data);
+        return $product;
     }
 }
