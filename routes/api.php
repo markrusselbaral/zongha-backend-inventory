@@ -6,6 +6,7 @@ use App\Http\Controllers\Item\ItemController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\Pricing\PricingController;
+use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Warehouse\WarehouseController;
 
@@ -55,7 +56,9 @@ Route::prefix('category')->group(function() {
     Route::post('/', [CategoryController::class, 'store']);
     Route::get('/{id}', [CategoryController::class, 'show']);
     Route::put('/{id}', [CategoryController::class, 'update']);
-    Route::delete('/{id}', [CategoryController::class, 'destroy']);
+    Route::delete('/{ids}', [CategoryController::class, 'destroy']);
+    Route::delete('/', [CategoryController::class, 'multipleDelete']);
+    
 });
 
 Route::prefix('items')->group(function() {
@@ -65,12 +68,13 @@ Route::prefix('items')->group(function() {
     Route::get('/{id}', [ItemController::class, 'show']);
     Route::put('/{id}', [ItemController::class, 'update']);
     Route::delete('/{id}', [ItemController::class, 'destroy']);
-
 });
 
 Route::prefix('retrieve')->group( function() {
-    Route::get('/', [ItemController::class, 'showRetrieve']);
-    Route::get('/{id}', [ItemController::class, 'restore']);
+    Route::get('/item', [ItemController::class, 'showRetrieve']);
+    Route::get('/{id}/item', [ItemController::class, 'restore']);
+    Route::get('/category', [CategoryController::class, 'showRetrieve']);
+    Route::get('/{id}/category', [CategoryController::class, 'restore']);
 });
 
 Route::prefix('warehouse')->group(function() {
@@ -79,6 +83,13 @@ Route::prefix('warehouse')->group(function() {
     Route::post('/', [WarehouseController::class, 'store']);
     Route::put('/{id}', [WarehouseController::class, 'update']);
     Route::delete('/{id}', [WarehouseController::class, 'destroy']);
+});
+
+Route::prefix('product')->group(function() {
+    Route::get('/', [ProductController::class, 'index']);
+    Route::post('/', [ProductController::class, 'save']);
+    Route::get('/{id}', [ProductController::class, 'edit']);
+    Route::put('/{id}', [ProductController::class, 'update']);
 });
 
 // Route::middleware(['auth', 'role:Admin'])->group(function () {

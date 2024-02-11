@@ -15,12 +15,19 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $data = $this->category->allCategory();
+            $search = $request->input('name');
+
+            if (!empty($search)) {
+                $data = Category::where('name', 'like', '%' . $search . '%')->get();
+            } else {
+                $data = $this->category->allCategory();
+            }
+
             return response()->json([
-                'category' => $data,
+                'categories' => $data,
                 'status' => 200,
                 'message' => 'Success fetching the data.'
             ], 200);
@@ -46,7 +53,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
+            'name' => 'required|string|unique:categories,name,except,id',
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -137,20 +144,81 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+
     public function destroy(string $id)
     {
         try {
-            $this->category->deleteCategory($id);
+            $item = Category::findOrFail($id);
+
+            $item->delete(); // Soft delete
 
             return response()->json([
-                'status' => 200,
-                'message' => 'Category successfully deleted.',
-            ], 200);
+                'status' => true,
+                'message' => 'Category deleted successfully',
+            ]);
         } catch (\Throwable $th) {
             return response()->json([
-                'status' => 500,
-                'message' => 'Error deleting category: ' . $th->getMessage(),
-            ], 500);
+                'error' => 'Error deleting category!',
+            ]);
+        }
+    }
+
+    public function multipleDelete(Request $request)
+    {
+        try {
+            $ids = $request->input('ids');
+
+            Category::whereIn('id', $ids)->delete();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Categories deleted successfully',
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'error' => 'Error deleting categories!',
+            ]);
+        }
+    }
+
+
+    public function showRetrieve()
+    {
+        try {
+            $data = Category::onlyTrashed()->get();
+
+            return response()->json([
+                'status' => true,
+                'data' => $data,
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'error' => 'Error retrieving category!',
+            ]);
+        }
+    }
+
+    public function restore(string $id)
+    {
+        try {
+            $item = Category::withTrashed()->findOrFail($id);
+
+            if ($item->trashed()) {
+                $item->restore();
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Category restored successfully',
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Category is not soft-deleted',
+                ]);
+            }
+        } catch (\Throwable $th) {
+            return response()->json([
+                'error' => 'Error restoring category!',
+            ]);
         }
     }
 }

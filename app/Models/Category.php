@@ -4,22 +4,27 @@ namespace App\Models;
 
 use App\Models\Item;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Category extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $table = 'categories';
     protected $guarded = [];
+    protected $dates = ['deleted_at'];
 
     public function items()
     {
         return $this->hasMany(Item::class, 'category_id');
     }
 
-    public function allCategory() {
-        $all = $this->all();
-        return $all;
+    public function allCategory()
+    {
+        $perPage = 10;
+        $categories = $this->paginate($perPage);
+
+        return $categories;
     }
 
     public function editCategory($id) {
