@@ -6,12 +6,16 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\Pricing\PricingRequest;
 use App\Models\Pricing;
+use App\Models\Client;
+use App\Models\Product;
 
 class PricingController extends Controller
 {
     function __construct()
     {
         $this->pricing = new Pricing;
+        $this->client = new Client;
+        $this->product = new Product;
     }
 
     public function index()
@@ -22,6 +26,18 @@ class PricingController extends Controller
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to fetch pricings: ' . $e->getMessage()], 500);
         }
+    }
+
+    public function create()
+    {
+        try {
+            $clients = $this->client->allClients();
+            $products = $this->product->allProducts();
+            return response()->json(['clients' => $clients, 'products' => $products]);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to fetch data: ' . $e->getMessage()], 500);
+        }
+        
     }
 
     public function save(PricingRequest $request)

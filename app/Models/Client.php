@@ -15,6 +15,11 @@ class Client extends Model
         return $this->hasMany(Pricing::class);
     }
 
+    public function allClients()
+    {
+        return $this->select('id', 'name')->get();
+    }
+
     public function displayClients()
     {
         return $this->paginate(5);
