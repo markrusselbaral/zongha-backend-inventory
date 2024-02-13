@@ -50,9 +50,15 @@ class User extends Authenticatable
         return $this->create($data)->assignRole($role);
     }
 
-    public function displayUser()
+    public function displayUser($search)
     {
-        return $this->with('roles')->paginate(5);
+        $user = $this->with('roles')->when($search, function ($query, $search) {
+            $query->where('name', 'like', '%' . $search . '%');
+            $query->orWhere('email', 'like', '%' . $search . '%');
+        })
+        ->paginate(10)
+        ->withQueryString();
+        return $user;
     }
 
     public function editUser($id)

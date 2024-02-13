@@ -20,9 +20,17 @@ class Client extends Model
         return $this->select('id', 'name')->get();
     }
 
-    public function displayClients()
+    public function displayClients($search)
     {
-        return $this->paginate(5);
+        $client = $this->when($search, function ($query, $search) {
+                $query->where('name', 'like', '%' . $search . '%');
+                $query->orWhere('tin_name', 'like', '%' . $search . '%');
+                $query->orWhere('tin_number', 'like', '%' . $search . '%');
+                $query->orWhere('type', 'like', '%' . $search . '%');
+            })
+            ->paginate(10)
+            ->withQueryString();
+        return $client;
     }
 
     public function addClient($data)

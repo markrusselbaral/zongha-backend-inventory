@@ -15,10 +15,10 @@ class UserController extends Controller
         $this->user = new User;
     }
 
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $users = $this->user->displayUser();
+            $users = $this->user->displayUser($request->search);
             return response()->json(['data' => $users]);
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to fetch users: ' . $e->getMessage()], 500);
