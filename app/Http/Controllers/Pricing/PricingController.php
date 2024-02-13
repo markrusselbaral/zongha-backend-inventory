@@ -18,10 +18,10 @@ class PricingController extends Controller
         $this->product = new Product;
     }
 
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $pricings = $this->pricing->displayPricings();
+            $pricings = $this->pricing->displayPricings($request->search);
             return response()->json(['data' => $pricings]);
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to fetch pricings: ' . $e->getMessage()], 500);

@@ -15,10 +15,10 @@ class ClientController extends Controller
     }
 
 
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $clients = $this->client->displayClients();
+            $clients = $this->client->displayClients($request->search);
             return response()->json(['data' => $clients]);
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to fetch clients: ' . $e->getMessage()], 500);

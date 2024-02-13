@@ -20,10 +20,31 @@ class Pricing extends Model
         return $this->belongsTo(Product::class);
     }
 
-    public function displayPricings()
+    public function displayPricings($search)
     {
-        return $this->with(['client', 'product'])->paginate(5);
+        $pricings = $this->join('clients', 'pricings.client_id', '=', 'clients.id')
+            ->join('products', 'pricings.client_id', '=', 'products.id')
+            ->join('items', 'products.item_id', '=', 'items.id')
+            ->select(
+                'pricings.id',
+                'pricings.price',
+                'clients.name as client_name',
+                'clients.tin_name', 
+                'clients.tin_number', 
+                'clients.type', 
+                'items.name as product_name'
+            )
+            ->when($search, function ($query, $search) {
+                $query->where('clients.name', 'like', '%' . $search . '%');
+                $query->orWhere('clients.tin_name', 'like', '%' . $search . '%');
+                $query->orWhere('clients.type', 'like', '%' . $search . '%');
+                $query->orWhere('items.name', 'like', '%' . $search . '%');
+            })
+            ->paginate(5);
+        
+        return $pricings;
     }
+
 
 
     public function addPricing($data)
