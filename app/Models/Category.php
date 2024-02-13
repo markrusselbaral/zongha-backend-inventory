@@ -19,12 +19,14 @@ class Category extends Model
         return $this->hasMany(Item::class, 'category_id');
     }
 
-    public function allCategory()
+    public function allCategory($search)
     {
-        $perPage = 10;
-        $categories = $this->paginate($perPage);
-
-        return $categories;
+        $data = $this->when($search, function ($query, $search) {
+            $query->where('name', 'like', '%' . $search . '%');
+        })
+        ->paginate(10)
+        ->withQueryString();
+        return $data;
     }
 
     public function editCategory($id) {

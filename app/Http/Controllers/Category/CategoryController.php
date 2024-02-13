@@ -18,14 +18,7 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         try {
-            $search = $request->input('name');
-
-            if (!empty($search)) {
-                $data = Category::where('name', 'like', '%' . $search . '%')->get();
-            } else {
-                $data = $this->category->allCategory();
-            }
-
+            $data = $this->category->allCategory($request->input('search'));
             return response()->json([
                 'categories' => $data,
                 'status' => 200,
