@@ -19,11 +19,11 @@ class Item extends Model
 
     public function category()
     {
-        return $this->belongsTo(Category::class, 'id');
+        return $this->belongsTo(Category::class);
     }
 
     public function product()
     {
-        return $this->hasMany(Product::class, 'item_id');
+        return $this->hasMany(Product::class);
     }
 }

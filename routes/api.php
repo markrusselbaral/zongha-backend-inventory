@@ -64,7 +64,7 @@ Route::prefix('category')->group(function() {
     
 });
 
-Route::prefix('items')->group(function() {
+Route::prefix('item')->group(function() {
     Route::get('/', [ItemController::class, 'index']);
     Route::get('/create', [ItemController::class, 'create']);
     Route::post('/', [ItemController::class, 'store']);

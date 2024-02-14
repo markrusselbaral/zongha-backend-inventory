@@ -28,6 +28,7 @@ class Pricing extends Model
             ->select(
                 'pricings.id',
                 'pricings.price',
+                'clients.id as client_id',
                 'clients.name as client_name',
                 'clients.tin_name', 
                 'clients.tin_number', 
