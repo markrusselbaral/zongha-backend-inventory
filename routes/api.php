@@ -9,6 +9,7 @@ use App\Http\Controllers\Pricing\PricingController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Warehouse\WarehouseController;
+use App\Http\Controllers\Purchase\PurchaseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,6 +53,17 @@ Route::prefix('pricing')->group(function() {
     Route::put('/{id}', [PricingController::class, 'update']);
     Route::delete('/{id}', [PricingController::class, 'delete']);
     Route::delete('/', [PricingController::class, 'multipleDelete']);
+});
+
+Route::prefix('purchase')->group(function() {
+    Route::get('/', [PurchaseController::class, 'index']);
+    Route::get('/create', [PurchaseController::class, 'create']);
+    Route::get('/products-clients', [PurchaseController::class, 'productsAndClients']);
+    Route::post('/', [PurchaseController::class, 'save']);
+    Route::get('/{id}', [PurchaseController::class, 'edit']);
+    Route::put('/{id}', [PurchaseController::class, 'update']);
+    Route::delete('/{id}', [PurchaseController::class, 'delete']);
+    Route::delete('/', [PurchaseController::class, 'multipleDelete']);
 });
 
 Route::prefix('category')->group(function() {

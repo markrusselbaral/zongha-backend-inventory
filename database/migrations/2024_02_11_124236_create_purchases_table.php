@@ -16,14 +16,12 @@ return new class extends Migration
             $table->string('date');
             $table->unsignedBigInteger('product_id')->nullable();
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
-            $table->unsignedBigInteger('warehouse_id')->nullable();
-            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade');
             $table->unsignedBigInteger('client_id')->nullable();
             $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
-            $table->integer('type');
+            $table->string('type');
             $table->integer('quantity');
             $table->integer('total_price');
-            $table->integer('status');
+            $table->string('status');
             $table->string('mode_of_payment');
             $table->timestamps();
         });
