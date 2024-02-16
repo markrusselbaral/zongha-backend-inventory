@@ -9,6 +9,8 @@ use App\Models\Client;
 use App\Models\Category;
 use App\Models\Warehouse;
 use App\Models\Item;
+use App\Models\Purchase;
+use App\Models\Pricing;
 
 class TestSeeder extends Seeder
 {
@@ -39,6 +41,7 @@ class TestSeeder extends Seeder
             'category_id' => 1,
             'image' => 'belly.png'
         ]);
+        
 
         Product::create([
             'item_id' => 1,
@@ -60,6 +63,43 @@ class TestSeeder extends Seeder
             'tin_number' => 221101,
             'type' => 'wholesale'
         ]);
+
+        Client::create([
+            'name' => 'mark russel barals',
+            'tin_name' => 'marks',
+            'tin_number' => 221101,
+            'type' => 'wholesale'
+        ]);
+
+        Purchase::create([
+            'date' => '16/02/2024',
+            'product_id' => 1,
+            'client_id' => 1,
+            'type' => 'wholesale',
+            'quantity' => 10,
+            'total_price' => 200,
+            'status' => 'paid',
+            'mode_of_payment' => 'gcash'
+        ]);
+
+        Pricing::create([
+            'client_id' => 1,
+            'product_id' => 1,
+            'price' => '200',
+        ]);
+
+        Pricing::create([
+            'client_id' => 1,
+            'product_id' => 2,
+            'price' => '200',
+        ]);
+
+        Pricing::create([
+            'client_id' => 2,
+            'product_id' => 2,
+            'price' => '200',
+        ]);
+
 
     }
 }

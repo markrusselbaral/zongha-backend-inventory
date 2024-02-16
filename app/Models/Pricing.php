@@ -41,8 +41,8 @@ class Pricing extends Model
                 $query->orWhere('clients.type', 'like', '%' . $search . '%');
                 $query->orWhere('items.name', 'like', '%' . $search . '%');
             })
-            ->paginate(5);
-        
+            ->paginate(5)
+            ->withQueryString();
         return $pricings;
     }
 
