@@ -40,6 +40,7 @@ class ProductController extends Controller
             return response()->json(['error' => 'Product not found: ' . $th->getMessage()], 404);
         }
     }
+    
 
     public function update(UpdateProductRequest $request, $id){
         try {
@@ -51,6 +52,11 @@ class ProductController extends Controller
     }
 
     public function delete($id) {
-
+        try {
+            $this->product->deleteProduct($id);
+            return response()->json(['status' => true, 'success' => 'Product deleted successfully.'],200);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => true, 'error' => 'Error deleting this product!'],500);
+        }
     }
 }

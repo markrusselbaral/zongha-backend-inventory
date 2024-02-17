@@ -19,7 +19,7 @@ class Product extends Model
 
     public function item()
     {
-        return $this->belongsTo(Item::class);
+        return $this->belongsTo(Item::class, 'id');
     }
 
     public function allProducts()
@@ -31,7 +31,7 @@ class Product extends Model
     }
 
     public function warehouse(){
-        return $this->belongsTo(Warehouse::class);
+        return $this->belongsTo(Warehouse::class, 'id');
     }
 
     public function allItems()
@@ -62,10 +62,18 @@ class Product extends Model
         return $product;
     }
 
-    public function updateProduct($id, $data)
+    public function updateProduct($data, $id)
     {
-        $product = $this->find($id);
+        $product = $this->findOrFail($id)->get();
         $product->update($data);
         return $product;
+    }
+
+    public function deleteProduct($id) {
+        $data = $this->find($id);
+        if($data) {
+            $data->delete();
+            return $data;
+        }
     }
 }
