@@ -73,7 +73,7 @@ Route::prefix('category')->group(function() {
     Route::put('/{id}', [CategoryController::class, 'update']);
     Route::delete('/{ids}', [CategoryController::class, 'destroy']);
     Route::delete('/', [CategoryController::class, 'multipleDelete']);
-    
+
 });
 
 Route::prefix('item')->group(function() {
@@ -105,6 +105,7 @@ Route::prefix('product')->group(function() {
     Route::post('/', [ProductController::class, 'save']);
     Route::get('/{id}', [ProductController::class, 'edit']);
     Route::put('/{id}', [ProductController::class, 'update']);
+    Route::delete('/{id}', [ProductController::class, 'delete']);
 });
 
 // Route::middleware(['auth', 'role:Admin'])->group(function () {
