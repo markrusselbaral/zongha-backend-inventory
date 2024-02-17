@@ -14,14 +14,18 @@ class ProductController extends Controller
         $this->product = new Product();
     }
 
-    public function index(){
+    public function index() {
         try {
-            $data = $this->product->allItems();
-            return response()->json(['data' => $data, 'status' => true], 200);
+            $data = Product::with(['warehouse', 'item'])->get();
+            
+            $groupedData = $data->groupBy('warehouse_id');
+
+            return response()->json(['data' => $groupedData, 'status' => true], 200);
         } catch (\Throwable $th) {
             return response()->json(['error' => 'Error fetching data: ' . $th->getMessage()], 500);
         }
     }
+
 
     public function save(ProductRequest $request) {
         try {
@@ -40,7 +44,7 @@ class ProductController extends Controller
             return response()->json(['error' => 'Product not found: ' . $th->getMessage()], 404);
         }
     }
-    
+
 
     public function update(UpdateProductRequest $request, $id){
         try {
