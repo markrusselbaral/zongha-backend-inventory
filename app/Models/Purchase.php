@@ -72,9 +72,16 @@ class Purchase extends Model
         return ($purchase == null || $client_id == null) ? $retailPrice : $purchase;
     }
 
+
     public function addPurchase($data)
     {
-        return $this->create($data);
+        $purchase = $this->create($data);
+        $product = Product::find($purchase->product_id);
+        if ($product) {
+            $newQuantity = (int)$product->quantity - (int)$purchase->quantity;
+            $product->update(['quantity' => $newQuantity]); 
+        }
+        
     }
 
     public function editPurchase($id)
