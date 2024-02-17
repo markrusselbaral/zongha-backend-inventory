@@ -12,9 +12,7 @@ class CategoryController extends Controller
     function __construct() {
         $this->category = new Category();
     }
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index(Request $request)
     {
         try {
@@ -32,17 +30,6 @@ class CategoryController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -73,9 +60,6 @@ class CategoryController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         try {
@@ -93,50 +77,35 @@ class CategoryController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
-{
-    $validator = Validator::make($request->all(), [
-        'name' => 'required|string',
-    ]);
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+        ]);
 
-    if ($validator->fails()) {
-        return response()->json([
-            'error' => $validator->errors(),
-            'status' => 422,
-        ], 422);
+        if ($validator->fails()) {
+            return response()->json([
+                'error' => $validator->errors(),
+                'status' => 422,
+            ], 422);
+        }
+
+        try {
+            $data = ['name' => $request->input('name')];
+            $update = $this->category->updateCategory($id, $data);
+
+            return response()->json([
+                'data' => $update,
+                'status' => 200,
+                'message' => 'Category updated successfully.',
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Error updating the category: ' . $th->getMessage(),
+            ], 500);
+        }
     }
-
-    try {
-        $data = ['name' => $request->input('name')];
-        $update = $this->category->updateCategory($id, $data);
-
-        return response()->json([
-            'data' => $update,
-            'status' => 200,
-            'message' => 'Category updated successfully.',
-        ], 200);
-    } catch (\Throwable $th) {
-        return response()->json([
-            'status' => 500,
-            'message' => 'Error updating the category: ' . $th->getMessage(),
-        ], 500);
-    }
-}
-
-    /**
-     * Remove the specified resource from storage.
-     */
 
     public function destroy(string $id)
     {

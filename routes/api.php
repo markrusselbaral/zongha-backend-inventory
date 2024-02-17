@@ -101,7 +101,7 @@ Route::prefix('warehouse')->group(function() {
 });
 
 Route::prefix('product')->group(function() {
-    Route::get('/', [ProductController::class, 'index']);
+    Route::get('/product/{id}', [ProductController::class, 'index']);
     Route::post('/', [ProductController::class, 'save']);
     Route::get('/{id}', [ProductController::class, 'edit']);
     Route::put('/{id}', [ProductController::class, 'update']);
