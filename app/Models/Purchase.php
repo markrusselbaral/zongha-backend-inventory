@@ -63,8 +63,13 @@ class Purchase extends Model
                     pricings.product_id as product_id
                 ')->where('products.id', $product_id);
             })
-            ->first(); 
-        return $purchase;
+            ->first();
+
+        $product = Product::select('price')->where('id', $product_id)->first();
+        $client = Client::select('name', 'tin_name', 'tin_number', 'type')->where('id', $client_id)->first();
+        $retailPrice = array_merge($client ? $client->toArray() : [], $product ? $product->toArray() : []);
+        
+        return ($purchase == null || $client_id == null) ? $retailPrice : $purchase;
     }
 
     public function addPurchase($data)

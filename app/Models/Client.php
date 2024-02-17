@@ -35,7 +35,8 @@ class Client extends Model
 
     public function addClient($data)
     {
-        return $this->create($data);
+        $client =  $this->create($data);
+        return $client->id;
     }
 
     public function editClient($id)

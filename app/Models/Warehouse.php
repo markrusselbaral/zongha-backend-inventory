@@ -26,7 +26,6 @@ class Warehouse extends Model
         $warehouse = $this->find($id);
         return $warehouse;
     }
-
     public function storeWarehouse($data) {
         $warehouse = $this->create($data);
         return $warehouse;

@@ -51,7 +51,22 @@ class PurchaseController extends Controller
 
     public function save(PurchaseRequest $request)
     {
-        $this->purchase->addPurchase($request->validated());
+        $data = $request->validated();
+
+        $retailClient = [
+            'name' => $request->name,
+            'tin_name' => $request->tin_name,
+            'tin_number' => $request->tin_number,
+            'type' => 'retail'
+        ];
+
+        $client = Client::where('id', $data['client_id'])->first();
+        if(!$client) {
+            $data['client_id'] = $this->client->addClient($retailClient);
+            $this->purchase->addPurchase($data);
+        } else {
+            $this->purchase->addPurchase($data);
+        }
         return response()->json(['message' => 'Successfully Added a Purchase', 'status' => true]);
     }
 
