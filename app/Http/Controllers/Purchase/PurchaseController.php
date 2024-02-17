@@ -53,22 +53,23 @@ class PurchaseController extends Controller
     {
         $data = $request->validated();
 
-        $retailClient = [
-            'name' => $request->name,
-            'tin_name' => $request->tin_name,
-            'tin_number' => $request->tin_number,
-            'type' => 'retail'
-        ];
-
-        $client = Client::where('id', $data['client_id'])->first();
-        if(!$client) {
-            $data['client_id'] = $this->client->addClient($retailClient);
-            $this->purchase->addPurchase($data);
-        } else {
-            $this->purchase->addPurchase($data);
+        $client = Client::find($data['client_id']);
+        if (!$client) {
+            $data['client_id'] = $this->client->addClient([
+                'name' => $request->name,
+                'tin_name' => $request->tin_name,
+                'tin_number' => $request->tin_number,
+                'type' => 'retail'
+            ]);
         }
-        return response()->json(['message' => 'Successfully Added a Purchase', 'status' => true]);
+
+        if (!$this->purchase->addPurchase($data)) {
+            return response()->json(['message' => 'Cannot deduct quantity. Insufficient quantity available.', 'status' => false]);
+        } else {
+            return response()->json(['message' => 'Successfully Added a Purchase.', 'status' => true]);
+        }
     }
+
 
     public function edit($id)
     { 

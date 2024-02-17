@@ -24,7 +24,7 @@ class PurchaseRequest extends FormRequest
         return [
             'date' => 'required',
             'product_id' => 'required',
-            'client_id' => 'required',
+            'client_id' => '',
             'type' => 'required',
             'quantity' => 'required',
             'total_price' => 'required',
