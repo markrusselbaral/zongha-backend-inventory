@@ -74,14 +74,18 @@ class Purchase extends Model
 
 
     public function addPurchase($data)
-    {
-        $purchase = $this->create($data);
-        $product = Product::find($purchase->product_id);
+    { 
+        $product = Product::find($data['product_id']);
         if ($product) {
-            $newQuantity = (int)$product->quantity - (int)$purchase->quantity;
-            $product->update(['quantity' => $newQuantity]); 
-        }
-        
+            $newQuantity = (int)$product->quantity - (int)$data['quantity'];
+            if ($newQuantity >= 0) {
+                $product->update(['quantity' => $newQuantity]);
+                $this->create($data);
+                return true;
+            } else {
+                return false;;
+            }
+        }  
     }
 
     public function editPurchase($id)
