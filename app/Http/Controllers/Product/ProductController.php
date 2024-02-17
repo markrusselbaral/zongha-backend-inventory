@@ -14,9 +14,21 @@ class ProductController extends Controller
         $this->product = new Product();
     }
 
-    public function index($id){
+    public function index(Request $request, $id){
         try {
-            $data =  Product::with(['item','warehouse'])->where('warehouse_id', $id)->get();
+            $search = $request->input('name');
+            $data =  Product::with(['item','warehouse'])->where('warehouse_id', $id)->paginate(5);
+            if($id == 0)
+            {
+                $data = Product::join('items', 'items.id', '=', 'products.item_id')
+                ->select('items.*', 'products.*')
+                ->with('warehouse')
+                ->when($search, function ($query, $search) {
+                    $query->where('items.name', 'like', '%' .$search . '%');
+                })
+                ->paginate(5)
+                ->withQueryString();
+            }
 
             return response()->json(['data' => $data, 'status' => true], 200);
         } catch (\Throwable $th) {

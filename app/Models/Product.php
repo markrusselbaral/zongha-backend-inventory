@@ -64,7 +64,7 @@ class Product extends Model
 
     public function updateProduct($data, $id)
     {
-        $product = $this->findOrFail($id)->get();
+        $product = $this->find($id);
         $product->update($data);
         return $product;
     }
