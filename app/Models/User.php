@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -21,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'image'
     ];
 
     /**
@@ -42,4 +44,44 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function addUser($data, $role)
+    {
+        return $this->create($data)->assignRole($role);
+    }
+
+    public function displayUser($search)
+    {
+        $user = $this->with('roles')->when($search, function ($query, $search) {
+            $query->where('name', 'like', '%' . $search . '%');
+            $query->orWhere('email', 'like', '%' . $search . '%');
+        })
+        ->paginate(10)
+        ->withQueryString();
+        return $user;
+    }
+
+    public function editUser($id)
+    {
+        return $this->with('roles')->find($id);
+    }
+
+    public function updateUser($data, $id, $role)
+    {
+        $user = $this->find($id);
+        $user->update($data);
+        $user->syncRoles($role);
+    }
+
+    public function deleteUser($id)
+    {
+        $user = $this->find($id);
+        $user->delete();
+    }
+
+    public function multipleDeleteUser($data)
+    {
+        $pricing = $this->whereIn('id', $data);
+        $pricing->delete();
+    }
 }
