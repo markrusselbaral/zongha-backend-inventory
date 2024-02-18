@@ -21,9 +21,13 @@ class Warehouse extends Model
         $all = [
             'id' => 0,
             'name' => 'all',
+            'location' => 'your_location',
+            'created_at' => null,
+            'updated_at' => null,
         ];
-        $warehouse = $this->all();
-        $warehouse[] = $all;
+
+        $warehouse = $this->all()->toArray();
+        array_unshift($warehouse, $all);
         return $warehouse;
     }
 
