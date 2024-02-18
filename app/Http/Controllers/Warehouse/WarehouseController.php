@@ -116,4 +116,22 @@ class WarehouseController extends Controller
             return response()->json(['error' => 'Error deleting warehouse:' . $th->getMessage()], 500);
         }
     }
+
+    public function multipleDelete(Request $request)
+    {
+        try {
+            $ids = $request->input('ids');
+
+            $this->warehouse->multipleDelete($ids);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Categories deleted successfully',
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'error' => 'Error deleting categories!',
+            ]);
+        }
+    }
 }

@@ -20,12 +20,19 @@ class ItemController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
+            $search = $request->input('search');
             $items = Item::with('category')
                 ->whereNull('deleted_at')
-                ->paginate(10);
+                ->when($search, function ($query, $search) {
+                    $query->where('name', 'like', '%' .$search . '%');
+                    $query->orWhere('product_code', 'like', '%' .$search . '%');
+                })
+                ->paginate(3)
+                ->withQueryString();
+                
 
             return response()->json([
                 'status' => true,
@@ -227,6 +234,24 @@ class ItemController extends Controller
             return response()->json([
                 'error' => 'Error restoring item!',
             ]);
+        }
+    }
+
+    public function multipleDelete(Request $request)
+    {
+        try {
+            $ids = $request->input('ids');
+
+            Item::whereIn('id', $ids)->delete();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Product deleted successfully',
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'error' => 'Error deleting product!' . $th->getMessage()
+            ], 500);
         }
     }
 

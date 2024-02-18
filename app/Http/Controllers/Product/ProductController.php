@@ -14,28 +14,31 @@ class ProductController extends Controller
         $this->product = new Product();
     }
 
-    public function index(Request $request, $id)
-    {
+    public function index(Request $request, $id){
         try {
-            $search = $request->input('name');
-
-            $query = Product::with(['item', 'warehouse']);
-
-            if ($id != 0) {
-                $query->where('warehouse_id', $id);
+            $search = $request->input('search');
+            $data =  Product::join('items', 'items.id', '=', 'products.item_id')
+                ->select('items.*', 'products.*')
+                ->with('warehouse')
+                ->where('warehouse_id', $id)
+                ->when($search, function ($query, $search) {
+                    $query->where('items.name', 'like', '%' .$search . '%');
+                })
+                ->paginate(10)
+                ->withQueryString();
+            if($id == 0)
+            {
+                $data = Product::join('items', 'items.id', '=', 'products.item_id')
+                ->select('items.*', 'products.*')
+                ->with('warehouse')
+                ->when($search, function ($query, $search) {
+                    $query->where('items.name', 'like', '%' .$search . '%');
+                })
+                ->paginate(10)
+                ->withQueryString();
             }
 
-            if ($search) {
-                $query->whereHas('item', function ($subQuery) use ($search) {
-                    $subQuery->where('name', 'like', '%' . $search . '%');
-                });
-            }
-
-            $data = $query->paginate(10)->withQueryString();
-            $sumQuantity = $query->sum('quantity');
-            $soldOutCount = $query->where('quantity', 0)->count();
-
-            return response()->json(['data' => $data, 'sum_quantity' => $sumQuantity, 'sold_out_count' => $soldOutCount, 'status' => true], 200);
+            return response()->json(['data' => $data, 'status' => true], 200);
         } catch (\Throwable $th) {
             return response()->json(['error' => 'Error fetching data: ' . $th->getMessage()], 500);
         }
