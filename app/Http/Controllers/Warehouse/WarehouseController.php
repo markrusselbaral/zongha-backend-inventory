@@ -15,10 +15,10 @@ class WarehouseController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $data = $this->warehouse->allWarehouse();
+            $data = $this->warehouse->allWarehouse($request->search);
             return response()->json(['data' => $data, 'status' => true], 200);
         } catch (\Throwable $th) {
             return response()->json(['error' => 'Error fetching data: ' . $th->getMessage()], 500);
