@@ -18,11 +18,13 @@ class Warehouse extends Model
     }
 
     public function tabWarehouse() {
+        $all = [
+            'id' => 0,
+            'name' => 'all',
+        ];
         $warehouse = $this->all();
-        if($warehouse) {
-            return $warehouse;
-        }
-        return false;
+        $warehouse[] = $all;
+        return $warehouse;
     }
 
     public function allWarehouse($search) {

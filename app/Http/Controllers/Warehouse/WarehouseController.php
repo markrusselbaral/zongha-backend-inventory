@@ -28,6 +28,7 @@ class WarehouseController extends Controller
     public function tabWarehouse() {
         try {
             $data = $this->warehouse->tabWarehouse();
+
             return response()->json(['data' => $data, 'status' => true], 200);
         } catch (\Throwable $th) {
             return response()->json(['error', 'Error fetching data: ' . $th->getMessage()]);
