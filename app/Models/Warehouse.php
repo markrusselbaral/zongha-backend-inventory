@@ -54,4 +54,11 @@ class Warehouse extends Model
         }
         return false;
     }
+
+
+    public function multipleDelete($data)
+    {
+        $pricing = $this->whereIn('id', $data);
+        $pricing->delete();
+    }
 }

@@ -83,6 +83,7 @@ Route::prefix('item')->group(function() {
     Route::get('/{id}', [ItemController::class, 'show']);
     Route::put('/{id}', [ItemController::class, 'update']);
     Route::delete('/{id}', [ItemController::class, 'destroy']);
+    Route::delete('/', [ItemController::class, 'multipleDelete']);
 });
 
 Route::prefix('retrieve')->group( function() {
@@ -98,6 +99,7 @@ Route::prefix('warehouse')->group(function() {
     Route::post('/', [WarehouseController::class, 'store']);
     Route::put('/{id}', [WarehouseController::class, 'update']);
     Route::delete('/{id}', [WarehouseController::class, 'destroy']);
+    Route::delete('/', [WarehouseController::class, 'multipleDelete']);
 });
 
 Route::prefix('product')->group(function() {
