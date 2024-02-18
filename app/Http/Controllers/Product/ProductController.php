@@ -15,31 +15,36 @@ class ProductController extends Controller
         $this->product = new Product();
     }
 
-    public function index(Request $request, $id){
+    public function index(Request $request, $id)
+    {
         try {
+            $soldOut = 0;
+            $quantity = 0;
             $search = $request->input('search');
-            $data =  Product::join('items', 'items.id', '=', 'products.item_id')
+
+            $query = Product::join('items', 'items.id', '=', 'products.item_id')
                 ->select('items.*', 'products.*')
-                ->with('warehouse')
-                ->where('warehouse_id', $id)
-                ->when($search, function ($query, $search) {
-                    $query->where('items.name', 'like', '%' .$search . '%');
-                })
-                ->paginate(10)
-                ->withQueryString();
-            if($id == 0)
-            {
-                $data = Product::join('items', 'items.id', '=', 'products.item_id')
-                ->select('items.*', 'products.*')
-                ->with('warehouse')
-                ->when($search, function ($query, $search) {
-                    $query->where('items.name', 'like', '%' .$search . '%');
-                })
-                ->paginate(10)
-                ->withQueryString();
+                ->with('warehouse');
+
+            if ($id != 0) {
+                $query->where('warehouse_id', $id);
             }
 
-            return response()->json(['data' => $data, 'status' => true], 200);
+            $query->when($search, function ($query, $search) {
+                    $query->where('items.name', 'like', '%' . $search . '%');
+                });
+
+            $data = $query->paginate(10)->withQueryString();
+
+            if ($id == 0) {
+                $soldOut = Product::where('quantity', 0)->count();
+                $quantity = Product::sum('quantity');
+            } else {
+                $quantity = Product::where('warehouse_id', $id)->sum('quantity');
+                $soldOut = Product::where('quantity', 0)->where('warehouse_id', $id)->count();
+            }
+
+            return response()->json(['data' => $data, 'status' => true, 'soldout' => $soldOut, 'quantity' => $quantity], 200);
         } catch (\Throwable $th) {
             return response()->json(['error' => 'Error fetching data: ' . $th->getMessage()], 500);
         }
