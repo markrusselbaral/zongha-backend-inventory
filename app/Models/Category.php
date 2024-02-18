@@ -19,6 +19,11 @@ class Category extends Model
         return $this->hasMany(Item::class, 'category_id');
     }
 
+    public function allCategoryDropdown() {
+        $category = $this->all();
+        return $category;
+    }
+
     public function allCategory($search)
     {
         $data = $this->when($search, function ($query, $search) {

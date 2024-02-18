@@ -17,6 +17,14 @@ class Warehouse extends Model
         return $this->hasMany(Product::class, 'warehouse_id');
     }
 
+    public function tabWarehouse() {
+        $warehouse = $this->all();
+        if($warehouse) {
+            return $warehouse;
+        }
+        return false;
+    }
+
     public function allWarehouse($search) {
         $warehouse = $this->when($search, function ($query, $search) {
             $query->where('name', 'like', '%' . $search . '%');

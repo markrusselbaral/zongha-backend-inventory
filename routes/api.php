@@ -94,6 +94,7 @@ Route::prefix('retrieve')->group( function() {
 });
 
 Route::prefix('warehouse')->group(function() {
+    Route::get('/warehouses', [WarehouseController::class, 'tabWarehouse']);
     Route::get('/', [WarehouseController::class, 'index']);
     Route::get('/{id}', [WarehouseController::class, 'edit']);
     Route::post('/', [WarehouseController::class, 'store']);
@@ -104,6 +105,7 @@ Route::prefix('warehouse')->group(function() {
 
 Route::prefix('product')->group(function() {
     Route::get('/product/{id}', [ProductController::class, 'index']);
+    Route::get('/create', [ProductController::class, 'create']);
     Route::post('/', [ProductController::class, 'save']);
     Route::get('/{id}', [ProductController::class, 'edit']);
     Route::put('/{id}', [ProductController::class, 'update']);
