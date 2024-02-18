@@ -77,4 +77,22 @@ class ProductController extends Controller
             return response()->json(['status' => true, 'error' => 'Error deleting this product!'],500);
         }
     }
+
+    public function multipleDelete(Request $request)
+    {
+        try {
+            $ids = $request->input('ids');
+
+            Product::whereIn('id', $ids)->delete();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Product deleted successfully',
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'error' => 'Error deleting product!' . $th->getMessage()
+            ], 500);
+        }
+    }
 }

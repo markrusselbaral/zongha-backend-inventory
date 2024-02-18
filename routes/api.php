@@ -106,6 +106,7 @@ Route::prefix('product')->group(function() {
     Route::get('/{id}', [ProductController::class, 'edit']);
     Route::put('/{id}', [ProductController::class, 'update']);
     Route::delete('/{id}', [ProductController::class, 'delete']);
+    Route::delete('/', [ProductController::class, 'multipleDelete']);
 });
 
 // Route::middleware(['auth', 'role:Admin'])->group(function () {
