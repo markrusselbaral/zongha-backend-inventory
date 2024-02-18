@@ -44,6 +44,8 @@ class ProductController extends Controller
                 $soldOut = Product::where('quantity', 0)->where('warehouse_id', $id)->count();
             }
 
+            
+
             return response()->json(['data' => $data, 'status' => true, 'soldout' => $soldOut, 'quantity' => $quantity], 200);
         } catch (\Throwable $th) {
             return response()->json(['error' => 'Error fetching data: ' . $th->getMessage()], 500);
