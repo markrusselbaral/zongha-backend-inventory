@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Product;
 
+use App\Models\Item;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -41,6 +42,15 @@ class ProductController extends Controller
             return response()->json(['data' => $data, 'status' => true], 200);
         } catch (\Throwable $th) {
             return response()->json(['error' => 'Error fetching data: ' . $th->getMessage()], 500);
+        }
+    }
+
+    public function create() {
+        try {
+            $data = Item::all();
+            return response()->json(['data' => $data, 'status' => true], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['error', 'Error fetching item : ' .$th->getMessage()], 500);
         }
     }
 

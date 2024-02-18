@@ -30,9 +30,9 @@ class ItemController extends Controller
                     $query->where('name', 'like', '%' .$search . '%');
                     $query->orWhere('product_code', 'like', '%' .$search . '%');
                 })
-                ->paginate(3)
+                ->paginate(10)
                 ->withQueryString();
-                
+
 
             return response()->json([
                 'status' => true,
@@ -52,7 +52,7 @@ class ItemController extends Controller
     public function create()
     {
         try {
-            $create = $this->category->allCategory();
+            $create = $this->category->allCategoryDropdown();
             return response()->json(['data' => $create, 'status' => true], 200);
         } catch (\Throwable $th) {
             return response()->json(['error' => 'Failed to fetch category: ' . $th->getMessage()], 500);
