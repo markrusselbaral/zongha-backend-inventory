@@ -69,7 +69,7 @@ class Purchase extends Model
             ->first();
 
         $product = Product::join('items', 'products.item_id', '=', 'items.id')
-                ->select('products.price', 'items.product_code', 'items.name as product_name')
+                ->select('products.price', 'items.product_code', 'items.name as product_name', 'products.quantity')
                 ->where('products.id', $product_id)->first();
         $client = Client::select('name', 'tin_name', 'tin_number', 'type')->where('id', $client_id)->first();
         $retailPrice = array_merge($client ? $client->toArray() : [], $product ? $product->toArray() : []);
