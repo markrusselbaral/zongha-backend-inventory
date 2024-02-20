@@ -59,6 +59,7 @@ class Purchase extends Model
             })
             ->when($product_id, function ($query) use ($product_id) {
                 $query->selectRaw('
+                    products.quantity,
                     items.name as product_name,
                     items.product_code,
                     pricings.price,
