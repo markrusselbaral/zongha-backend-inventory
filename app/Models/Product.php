@@ -26,7 +26,8 @@ class Product extends Model
     {
         $products =  $this->with(['item' => function ($query) {
             $query->select('id','name');
-        }])->select('item_id', 'id as product_id')->get();
+        }])->join('warehouses', 'warehouses.id', '=', 'products.warehouse_id')
+        ->select('products.item_id', 'products.id as product_id', 'warehouses.name')->get();
         return $products;
     }
 

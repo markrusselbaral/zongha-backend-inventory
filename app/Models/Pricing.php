@@ -23,9 +23,11 @@ class Pricing extends Model
     public function displayPricings($search)
     {
         $pricings = $this->join('clients', 'pricings.client_id', '=', 'clients.id')
-            ->join('products', 'pricings.client_id', '=', 'products.id')
-            ->join('items', 'products.item_id', '=', 'items.id')
+            ->join('products', 'pricings.product_id', '=', 'products.id')
+            ->join('warehouses', 'warehouses.id','=', 'products.warehouse_id')
+            ->join('items', 'items.id', '=', 'products.item_id')
             ->select(
+                'warehouses.name as warehouse_name',
                 'pricings.id',
                 'pricings.price',
                 'clients.id as client_id',
@@ -33,7 +35,10 @@ class Pricing extends Model
                 'clients.tin_name', 
                 'clients.tin_number', 
                 'clients.type', 
-                'items.name as product_name'
+                'items.name as product_name',
+                'pricings.updated_at',
+                'products.id as product_id',
+                
             )
             ->when($search, function ($query, $search) {
                 $query->where('clients.name', 'like', '%' . $search . '%');
@@ -41,9 +46,11 @@ class Pricing extends Model
                 $query->orWhere('clients.type', 'like', '%' . $search . '%');
                 $query->orWhere('items.name', 'like', '%' . $search . '%');
             })
-            ->paginate(5)
+            ->orderBy('pricings.id')
+            ->paginate(10)
             ->withQueryString();
         return $pricings;
+
     }
 
 
@@ -55,7 +62,13 @@ class Pricing extends Model
 
     public function editPricing($id)
     {
-        return $this->with(['client', 'product'])->find($id);
+        $pricing = $this->join('clients', 'clients.id', '=', 'pricings.client_id')
+                ->join('products', 'pricings.product_id', '=', 'products.id')
+                ->join('items', 'products.item_id', '=', 'items.id')
+                ->select('clients.name', 'pricings.client_id', 'pricings.product_id','items.name as product_name', 'pricings.id as pricing_id', 'pricings.price')
+                ->where('pricings.id', '=', $id)
+                ->first();
+        return $pricing;
     }
 
     public function updatePricing($data, $id)

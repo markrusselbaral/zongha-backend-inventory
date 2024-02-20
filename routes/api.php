@@ -38,6 +38,7 @@ Route::prefix('user')->group(function () {
 
 Route::prefix('client')->group(function() {
     Route::get('/', [ClientController::class, 'index']);
+    Route::post('/create', [ClientController::class, 'create']);
     Route::post('/', [ClientController::class, 'save']);
     Route::get('/{id}', [ClientController::class, 'edit']);
     Route::put('/{id}', [ClientController::class, 'update']);

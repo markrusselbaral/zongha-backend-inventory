@@ -75,7 +75,7 @@ class ItemController extends Controller
 
     public function store(Request $request)
     {
-        try {
+        // try {
             $validatedData = $request->validate([
                 'name' => 'required|string|max:255|unique:'.Item::class,
                 'category_id' => 'required|exists:categories,id',
@@ -95,11 +95,11 @@ class ItemController extends Controller
                 'data' => $item,
                 'message' => 'Item stored successfully',
             ], 201);
-        } catch (\Throwable $th) {
-            return response()->json([
-                'error' => 'Error storing item!',
-            ]);
-        }
+        // } catch (\Throwable $th) {
+        //     return response()->json([
+        //         'error' => 'Error storing item!',
+        //     ]);
+        // }
     }
 
     /**

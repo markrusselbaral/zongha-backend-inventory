@@ -15,8 +15,10 @@ class Purchase extends Model
         $purchases =  $this->join('clients', 'clients.id', '=', 'purchases.client_id')
             ->join('products', 'products.id', '=', 'purchases.product_id')
             ->join('items', 'items.id', '=', 'products.item_id')
+            ->join('warehouses', 'warehouses.id', '=', 'products.warehouse_id')
             ->select(
-                'clients.name',
+                'warehouses.name as warehouse_name',
+                'clients.name as client_name',
                 'clients.tin_name',
                 'clients.tin_number',
                 'clients.type', 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use Illuminate\Http\Request;
 use App\Models\Client;
+use App\Models\Product;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Client\ClientRequest;
 
@@ -12,6 +13,7 @@ class ClientController extends Controller
     function __construct()
     {
         $this->client = new Client;
+        $this->product = new Product;
     }
 
 
@@ -22,6 +24,17 @@ class ClientController extends Controller
             return response()->json(['data' => $clients]);
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to fetch clients: ' . $e->getMessage()], 500);
+        }
+    }
+
+    public function create(Request $request)
+    {
+        try {
+            $clients = $this->client->allClients();
+            $products = $this->product->allProducts();
+            return response()->json(['clients' => $clients, 'products' => $products]);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to fetch clients and products: ' . $e->getMessage()], 500);
         }
     }
 
