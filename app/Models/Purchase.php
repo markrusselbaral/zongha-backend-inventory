@@ -39,6 +39,7 @@ class Purchase extends Model
                 $query->orWhere('items.product_code', 'like', '%' . $search . '%');
                 $query->orWhere('items.name', 'like', '%' . $search . '%');
             })
+            ->orderBy('id')
             ->paginate(5)
             ->withQueryString();           
         return $purchases;
