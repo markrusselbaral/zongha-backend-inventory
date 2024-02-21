@@ -76,7 +76,8 @@ class TestSeeder extends Seeder
             'product_id' => 1,
             'client_id' => 1,
             'type' => 'wholesale',
-            'quantity' => 10,
+            'quantity' => 2,
+            'price' => 100,
             'total_price' => 200,
             'status' => 'paid',
             'mode_of_payment' => 'gcash'
