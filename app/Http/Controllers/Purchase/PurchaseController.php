@@ -59,7 +59,7 @@ class PurchaseController extends Controller
                 'name' => $request->name,
                 'tin_name' => $request->tin_name,
                 'tin_number' => $request->tin_number,
-                'type' => 'retail'
+                'type' => 'Retail'
             ]);
         }
 
