@@ -26,7 +26,6 @@ class ProductRequest extends FormRequest
             'quantity' => 'required',
             'price' => 'required',
             'warehouse_id' => 'required|exists:warehouses,id',
-            'deduct_quantity' => ''
         ];
     }
 }

@@ -48,7 +48,6 @@ class TestSeeder extends Seeder
             'quantity' => 2,
             'price' => 200,
             'warehouse_id' => 1,
-            'deduct_quantity' => 1
         ]);
 
         Product::create([
@@ -56,7 +55,6 @@ class TestSeeder extends Seeder
             'quantity' => 2,
             'price' => 200,
             'warehouse_id' => 1,
-            'deduct_quantity' => 1
         ]);
 
         Client::create([
@@ -78,7 +76,7 @@ class TestSeeder extends Seeder
             'product_id' => 1,
             'client_id' => 1,
             'type' => 'wholesale',
-            'quantity' => 2,
+            'quantity' => 3,
             'price' => 100,
             'total_price' => 200,
             'status' => 'paid',

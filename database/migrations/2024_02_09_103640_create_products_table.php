@@ -19,7 +19,6 @@ return new class extends Migration
             $table->float('price');
             $table->unsignedBigInteger('warehouse_id')->nullable();
             $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade');
-            $table->integer('deduct_quantity')->nullable();
             $table->timestamps();
         });
     }

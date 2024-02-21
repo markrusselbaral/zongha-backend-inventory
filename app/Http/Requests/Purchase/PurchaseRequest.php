@@ -29,6 +29,7 @@ class PurchaseRequest extends FormRequest
             'quantity' => 'required',
             'price' => 'required',
             'total_price' => 'required',
+            'price' => 'required',
             'status' => 'required',
             'mode_of_payment' => 'required',
         ];

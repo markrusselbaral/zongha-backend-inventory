@@ -86,7 +86,7 @@ class Purchase extends Model
         if ($product) {
             $newQuantity = (int)$product->quantity - (int)$data['quantity'];
             if ($newQuantity >= 0) {
-                $product->update(['quantity' => $newQuantity, 'deduct_quantity' => (int)$data['quantity']]);
+                $product->update(['quantity' => $newQuantity]);
                 $this->create($data);
                 return true;
             } else {
@@ -102,10 +102,17 @@ class Purchase extends Model
 
     public function updatePurchase($data, $id)
     {
-        // $purchase = $this->find($id);
+        $purchase = $this->find($id);
+        $product = Product::find($purchase['id']);
+        $calc = (int)$product['quantity'] + (int)$purchase['quantity'];
+        $product->update(['quantity' => $calc]);
+        $purchase->update(['quantity' => $data['quantity']]);
+        $calc2 = (int)$product['quantity'] - (int)$purchase['quantity'];
+        $product->update(['quantity' => $calc2]);
+        $purchase->update($data);
 
-        // $product = Product::find($purchase['id'])
-        // $purchase->update($data);
+        return $product;
+
     }
 
     public function deletePurchase($id)
