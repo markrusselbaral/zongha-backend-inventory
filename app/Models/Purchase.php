@@ -23,7 +23,7 @@ class Purchase extends Model
                 'clients.tin_number',
                 'clients.type', 
                 'purchases.*',
-                'products.price',
+                'products.price as product_price',
                 'items.product_code',
                 'items.name'
             ) 

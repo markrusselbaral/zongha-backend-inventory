@@ -27,6 +27,7 @@ class PurchaseRequest extends FormRequest
             'client_id' => '',
             'type' => 'required',
             'quantity' => 'required',
+            'price' => 'required',
             'total_price' => 'required',
             'status' => 'required',
             'mode_of_payment' => 'required',

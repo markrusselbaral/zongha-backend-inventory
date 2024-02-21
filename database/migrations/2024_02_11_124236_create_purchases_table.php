@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
             $table->string('type');
             $table->integer('quantity');
+            $table->integer('price');
             $table->integer('total_price');
             $table->string('status');
             $table->string('mode_of_payment');
