@@ -102,8 +102,10 @@ class Purchase extends Model
 
     public function updatePurchase($data, $id)
     {
-        $purchase = $this->find($id);
-        $purchase->update($data);
+        // $purchase = $this->find($id);
+
+        // $product = Product::find($purchase['id'])
+        // $purchase->update($data);
     }
 
     public function deletePurchase($id)
