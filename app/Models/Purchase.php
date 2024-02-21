@@ -104,7 +104,7 @@ class Purchase extends Model
     public function updatePurchase($data, $id)
     {
         $purchase = $this->find($id);
-        $product = Product::find($purchase['id']);
+        $product = Product::find($purchase['product_id']);
         $calc = (int)$product['quantity'] + (int)$purchase['quantity'];
         $product->update(['quantity' => $calc]);
         $purchase->update(['quantity' => $data['quantity']]);
