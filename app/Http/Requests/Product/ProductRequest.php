@@ -25,7 +25,8 @@ class ProductRequest extends FormRequest
             'item_id' => 'required|exists:items,id',
             'quantity' => 'required',
             'price' => 'required',
-            'warehouse_id' => 'required|exists:warehouses,id'
+            'warehouse_id' => 'required|exists:warehouses,id',
+            'deduct_quantity' => ''
         ];
     }
 }

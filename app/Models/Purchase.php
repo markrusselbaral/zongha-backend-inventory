@@ -86,7 +86,7 @@ class Purchase extends Model
         if ($product) {
             $newQuantity = (int)$product->quantity - (int)$data['quantity'];
             if ($newQuantity >= 0) {
-                $product->update(['quantity' => $newQuantity, 'deductQuantity' => (int)$data['quantity']]);
+                $product->update(['quantity' => $newQuantity, 'deduct_quantity' => (int)$data['quantity']]);
                 $this->create($data);
                 return true;
             } else {

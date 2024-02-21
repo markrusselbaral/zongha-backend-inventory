@@ -47,14 +47,16 @@ class TestSeeder extends Seeder
             'item_id' => 1,
             'quantity' => 2,
             'price' => 200,
-            'warehouse_id' => 1
+            'warehouse_id' => 1,
+            'deduct_quantity' => 1
         ]);
 
         Product::create([
             'item_id' => 2,
             'quantity' => 2,
             'price' => 200,
-            'warehouse_id' => 1
+            'warehouse_id' => 1,
+            'deduct_quantity' => 1
         ]);
 
         Client::create([
