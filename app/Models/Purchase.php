@@ -22,6 +22,7 @@ class Purchase extends Model
                 'clients.tin_name',
                 'clients.tin_number',
                 'clients.type', 
+                'purchases.id',
                 'purchases.date',
                 'purchases.type',
                 'purchases.quantity',
