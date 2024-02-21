@@ -86,7 +86,7 @@ class Purchase extends Model
         if ($product) {
             $newQuantity = (int)$product->quantity - (int)$data['quantity'];
             if ($newQuantity >= 0) {
-                $product->update(['quantity' => $newQuantity]);
+                $product->update(['quantity' => $newQuantity, 'deductQuantity' => (int)$data['quantity']]);
                 $this->create($data);
                 return true;
             } else {
@@ -112,7 +112,7 @@ class Purchase extends Model
         $purchase->delete();
     }
 
-    public function multipleDeletePurchase($date)
+    public function multipleDeletePurchase($data)
     {
         $pricing = $this->whereIn('id', $data);
         $pricing->delete();
