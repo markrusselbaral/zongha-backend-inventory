@@ -25,6 +25,7 @@ class Purchase extends Model
                 'purchases.*',
                 'purchases.mode_of_payment',
                 'products.price as product_price',
+                'products.quantity as product_quantity',
                 'items.product_code',
                 'items.name'
             ) 
